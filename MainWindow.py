@@ -1,7 +1,6 @@
 import sys
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import (QApplication, 
-                             QMainWindow, 
+from PyQt6.QtWidgets import (QMainWindow, 
                              QPushButton,
                              QComboBox,
                              QSpinBox, 
@@ -24,7 +23,7 @@ class MainWindow(QMainWindow):
         # Start button
         self.startButton = QPushButton("Start", self)
         self.startButton.setGeometry(200, 200, 100, 100)
-        self.startButton.clicked.connect(self.button_clicked)
+        self.startButton.clicked.connect(self.buttonClicked)
         self.startButton.setEnabled(False)
 
         # Model selector combobox
@@ -34,7 +33,7 @@ class MainWindow(QMainWindow):
         self.modelOptionCombobox.addItem("Subset-model")
         self.modelOptionCombobox.addItem("Lazy-constraints model")
         self.modelOptionCombobox.addItem("Flow model")
-        self.modelOptionCombobox.currentIndexChanged.connect(self.combobox_selection_changed)
+        self.modelOptionCombobox.currentIndexChanged.connect(self.comboboxSelectionChanged)
 
         # City number spin box
         self.numberOfCitiesSelector = QSpinBox(self)
@@ -43,13 +42,16 @@ class MainWindow(QMainWindow):
         self.numberOfCitiesSelector.setRange(0, 200)
         self.numberOfCitiesSelector.valueChanged.connect(self.updateNumberOfCities)
 
+    # Slot that updates the number of cities after spin box change. 
     def updateNumberOfCities(self, value):
         self.numberOfCities = value
 
-    def combobox_selection_changed(self, index):
+    # Slot that updates the model that should be run after combobox change.
+    def comboboxSelectionChanged(self, index):
         selected_text = self.modelOptionCombobox.currentText()
         print(f"Selected: {selected_text}")
         self.startButton.setEnabled(True)
 
-    def button_clicked (self, button_clicked):
+    # Slots that starts the optimization.
+    def buttonClicked (self, button_clicked):
         newModel = SubSetModel(self.numberOfCities)
