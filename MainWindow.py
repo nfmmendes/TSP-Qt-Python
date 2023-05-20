@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (QApplication,
                              QMainWindow, 
                              QPushButton,
                              QComboBox)
+from SubSetModel import SubSetModel
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -34,4 +35,4 @@ class MainWindow(QMainWindow):
         self.startButton.setEnabled(True)
 
     def button_clicked (self, button_clicked):
-        print("Button clicked")
+        newModel = SubSetModel(5)
