@@ -3,7 +3,7 @@ import random
 
 class SubSetModel():
     def __init__(self, numberOfCities):
-        self.cityPositions = [(random.randint(1, 100), random.randint(1, 100)) for _ in range(10)]
+        self.cityPositions = [(random.randint(1, 100), random.randint(1, 100)) for _ in range(numberOfCities)]
         self.subsets =  self.get_subsets([i for i in range(numberOfCities)])
         
         model = pl.LpProblem("TSP With subsets")
