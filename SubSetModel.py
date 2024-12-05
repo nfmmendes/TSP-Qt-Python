@@ -8,17 +8,22 @@ class SubSetModel():
         
         model = pl.LpProblem("TSP With subsets")
 
-        x = { i: { j: pl.LpVariable("x({} , {})".format(i, j), cat = pl.LpBinary) for j in range(numberOfCities) if i !=j } for i in range(numberOfCities) }
+        variable_factory = lambda i, j : pl.LpVariable("x({} , {})".format(i, j), cat = pl.LpBinary)
+        x = { i: { j: variable_factory(i, j) for j in range(numberOfCities) if i !=j } for i in range(numberOfCities) }
 
-        model += pl.lpSum( [x[i][j]*self.distance(i, j) for i in x for j in x[i]])
+        model += pl.lpSum(self.distance(i, j)*x[i][j] for i in x for j in x[i])
 
-        for i in x:
+        for i in range(numberOfCities):
             model += pl.lpSum( [x[i][j] for j in x[i] ] ) == 1
-        for j in range(numberOfCities):
-            model += pl.lpSum( [x[i][j] for i in x if j in x[i]]) == 1
         
+        for j in range(numberOfCities):
+            model += pl.lpSum( [x[i][j] for i in range(numberOfCities) if j in x[i]]) ==\
+            pl.lpSum( [x[j][i] for i in range(numberOfCities) if i in x[j]])
+
         for subset in self.subsets:
-            model += pl.lpSum( [x[i][j] for i in x for j in x[i] if i in subset and j in subset] ) == len(subset) - 1
+            if len(subset) <= 1 or len(subset) == numberOfCities:
+                continue
+            model += pl.lpSum( [x[i][j] for i in x for j in x[i] if i in subset and j in subset] ) <= len(subset) - 1
 
         print(model)
         model.solve()
