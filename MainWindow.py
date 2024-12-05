@@ -7,7 +7,9 @@ from PyQt6.QtWidgets import (QMainWindow,
                              QLabel
                              )
 
+from FlowModel import FlowModel
 from SubSetModel import SubSetModel
+from LazyConstraintsModel import LazyConstraintsModel
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -58,4 +60,12 @@ class MainWindow(QMainWindow):
 
     # Slots that starts the optimization.
     def buttonClicked (self, button_clicked):
-        newModel = SubSetModel(self.numberOfCities)
+        selected_index = self.modelOptionCombobox.currentIndex()
+
+        newModel = None
+        if selected_index == 0:
+            newModel = SubSetModel(self.numberOfCities)
+        elif selected_index == 1:
+            newModel = LazyConstraintsModel(self.numberOfCities)
+        elif selected_index == 2:
+            newModel = FlowModel(self.numberOfCities)
