@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import (QMainWindow,
                              QPushButton,
                              QComboBox,
                              QSpinBox, 
+                             QLabel
                              )
 
 from SubSetModel import SubSetModel
@@ -20,15 +21,12 @@ class MainWindow(QMainWindow):
         # Set the window dimensions (width, height)
         self.setGeometry(100, 100, 500, 400)
 
-        # Start button
-        self.startButton = QPushButton("Start", self)
-        self.startButton.setGeometry(200, 200, 100, 100)
-        self.startButton.clicked.connect(self.buttonClicked)
-        self.startButton.setEnabled(False)
+        self.modelOptionLabel = QLabel("Select model: ")
+        self.modelOptionLabel.setGeometry(30, 80, 100, 30)
 
         # Model selector combobox
         self.modelOptionCombobox = QComboBox(self)
-        self.modelOptionCombobox.setGeometry(50, 50, 200, 30)
+        self.modelOptionCombobox.setGeometry(150, 80, 200, 30)
         self.modelOptionCombobox.setPlaceholderText("Select an option")
         self.modelOptionCombobox.addItem("Subset-model")
         self.modelOptionCombobox.addItem("Lazy-constraints model")
@@ -38,9 +36,15 @@ class MainWindow(QMainWindow):
         # City number spin box
         self.numberOfCitiesSelector = QSpinBox(self)
         self.numberOfCitiesSelector.setValue(self.numberOfCities)
-        self.numberOfCitiesSelector.setGeometry(300, 50, 50, 20)
+        self.numberOfCitiesSelector.setGeometry(150, 50, 50, 20)
         self.numberOfCitiesSelector.setRange(0, 200)
         self.numberOfCitiesSelector.valueChanged.connect(self.updateNumberOfCities)
+
+        # Start button
+        self.startButton = QPushButton("Start", self)
+        self.startButton.setGeometry(200, 200, 100, 100)
+        self.startButton.clicked.connect(self.buttonClicked)
+        self.startButton.setEnabled(False)
 
     # Slot that updates the number of cities after spin box change. 
     def updateNumberOfCities(self, value):
