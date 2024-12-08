@@ -31,6 +31,7 @@ class SubSetModel():
 
         print(model)
         model.solve()
+        self.solution_status = pl.LpStatus[model.status]
     
     def distance(self, i, j) -> int:
         return (self.cityPositions[i][0] - self.cityPositions[j][0])**2 + (self.cityPositions[i][1] - self.cityPositions[j][1])**2
