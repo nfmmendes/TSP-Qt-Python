@@ -43,6 +43,8 @@ class MainWindow(QMainWindow):
         self.numberOfCitiesSelector.setRange(0, 200)
         self.numberOfCitiesSelector.valueChanged.connect(self.updateNumberOfCities)
 
+        self.solution_status_label = QLabel("", self)
+
         # Start button
         self.startButton = QPushButton("Start", self)
         self.startButton.setGeometry(200, 200, 100, 100)
@@ -72,3 +74,5 @@ class MainWindow(QMainWindow):
             newModel = LazyConstraintsModel(cities_positions)
         elif selected_index == 2:
             newModel = FlowModel(cities_positions)
+
+        self.solution_status_label.setText(newModel.solution_status)
