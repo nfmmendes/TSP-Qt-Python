@@ -1,10 +1,13 @@
-import random
 import pulp as pl
 
 class FlowModel:
-    def __init__(self, number_of_cities):
-        self.cityPositions = [(random.randint(1, 100), random.randint(1, 100)) for _ in range(number_of_cities)]
-        
+    def __init__(self, city_positions):
+        number_of_cities = len(city_positions)
+        if len(city_positions) == 0:
+            return
+
+        self.cityPositions = city_positions
+
         model = pl.LpProblem("TSP With Flow")
 
         variable_factory = lambda i, j : pl.LpVariable("x({} , {})".format(i, j), cat = pl.LpBinary)

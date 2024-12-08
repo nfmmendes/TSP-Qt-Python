@@ -1,9 +1,13 @@
 import pulp as pl
-import random
 
 class SubSetModel():
-    def __init__(self, numberOfCities):
-        self.cityPositions = [(random.randint(1, 100), random.randint(1, 100)) for _ in range(numberOfCities)]
+    def __init__(self, city_positions):
+        numberOfCities = len(city_positions)
+        if len(city_positions) == 0:
+            return
+
+        self.cityPositions = city_positions
+
         self.subsets =  self.get_subsets([i for i in range(numberOfCities)])
         
         model = pl.LpProblem("TSP With subsets")

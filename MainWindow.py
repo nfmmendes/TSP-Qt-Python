@@ -10,6 +10,7 @@ from PyQt6.QtWidgets import (QMainWindow,
 from FlowModel import FlowModel
 from SubSetModel import SubSetModel
 from LazyConstraintsModel import LazyConstraintsModel
+import random
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -62,10 +63,12 @@ class MainWindow(QMainWindow):
     def buttonClicked (self, button_clicked):
         selected_index = self.modelOptionCombobox.currentIndex()
 
+        cities_positions = [(random.randint(1, 100), random.randint(1, 100)) for _ in range(self.numberOfCities)]
+
         newModel = None
         if selected_index == 0:
-            newModel = SubSetModel(self.numberOfCities)
+            newModel = SubSetModel(cities_positions)
         elif selected_index == 1:
-            newModel = LazyConstraintsModel(self.numberOfCities)
+            newModel = LazyConstraintsModel(cities_positions)
         elif selected_index == 2:
-            newModel = FlowModel(self.numberOfCities)
+            newModel = FlowModel(cities_positions)
