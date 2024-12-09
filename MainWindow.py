@@ -1,9 +1,12 @@
 import sys
+from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (
+                             QWidget,
                              QMainWindow, 
                              QPushButton,
                              QComboBox,
                              QSpinBox, 
+                             QVBoxLayout,
                              QLabel
                              )
 
@@ -15,6 +18,11 @@ import random
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
+        
+        self._main = QWidget()
+        self.setWindowTitle("Gpx stats viewer")
+        self.setCentralWidget(self._main)
+        layout = QVBoxLayout(self._main)
 
         self.number_of_cities = 5
 
@@ -29,7 +37,7 @@ class MainWindow(QMainWindow):
 
         # Model selector combobox
         self.model_option_combobox = QComboBox()
-        self.model_option_combobox.setGeometry(150, 80, 200, 30)
+        self.model_option_combobox.setFixedSize(160, 24)
         self.model_option_combobox.setPlaceholderText("Select an option")
         self.model_option_combobox.addItem("Subset-model")
         self.model_option_combobox.addItem("Lazy-constraints model")
@@ -39,7 +47,7 @@ class MainWindow(QMainWindow):
         # City number spin box
         self.number_of_cities_selector = QSpinBox()
         self.number_of_cities_selector.setValue(self.number_of_cities)
-        self.number_of_cities_selector.setGeometry(150, 50, 50, 20)
+        self.number_of_cities_selector.setFixedSize(50, 24)
         self.number_of_cities_selector.setRange(0, 200)
         self.number_of_cities_selector.valueChanged.connect(self.updateNumberOfCities)
 
@@ -47,16 +55,15 @@ class MainWindow(QMainWindow):
 
         # Start button
         self.start_button = QPushButton("Start")
-        self.start_button.setGeometry(200, 200, 100, 100)
+        self.start_button.setFixedSize(60, 60)
         self.start_button.clicked.connect(self.buttonClicked)
         self.start_button.setEnabled(False)
 
-
-        layout = self.layout()
-        layout.addItem(self.model_option_combobox)
-        layout.addItem(self.number_of_cities_selector)
-        layout.addItem(self.start_button)
-        layout.addItem(self.solution_status_label)
+        layout.addWidget(self.model_option_combobox)
+        layout.addWidget(self.number_of_cities_selector)
+        layout.addStretch()
+        layout.addWidget(self.start_button, Qt.AlignmentFlag.AlignHCenter)
+        layout.addWidget(self.solution_status_label)
 
 
     # Slot that updates the number of cities after spin box change. 
